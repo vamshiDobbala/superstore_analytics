@@ -1,0 +1,45 @@
+name: 'superstore_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'superstore_analytics'
+
+models:
+  superstore_analytics:
+    +tags: ['superstore']
+
+    staging:
+      +materialized: view
+      +schema: staging
+
+    intermediate:
+      +materialized: ephemeral
+
+    marts:
+      +materialized: table
+      +schema: marts
+
+      core:
+        +tags: ['core']
+      sales:
+        +tags: ['reporting', 'sales']
+
+seeds:
+  superstore_analytics:
+    +schema: staging
+
+snapshots:
+  superstore_analytics:
+    +target_schema: snapshots
+
+tests:
+  +severity: warn
+
+vars:
+  date_spine_start: '2014-01-01'
+  date_spine_end: '2018-12-31'
+  incremental_lookback_days: 3
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
