@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "The core fact table containing all order events and sales metrics."
+    columns:
+      - name: order_item_id
+        description: "Primary key of the fact table."
+        tests:
+          - unique
+          - not_null
+      
+      - name: customer_sk
+        description: "Foreign key linking to the Customer Dimension."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_sk
+              
+      - name: product_sk
+        description: "Foreign key linking to the Product Dimension."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_sk
+
+      - name: location_sk
+        description: "Foreign key linking to the Location Dimension."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_locations')
+              field: location_sk
