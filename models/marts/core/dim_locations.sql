@@ -1,3 +1,5 @@
+{{ config(materialized='view') }}
+
 with staging as (
     select * from {{ ref('stg_superstore__orders') }}
 ),

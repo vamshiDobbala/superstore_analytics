@@ -1,5 +1,15 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='order_item_id'
+    )
+}}
+
 with staging as (
     select * from {{ ref('stg_superstore__orders') }}
+    {% if is_incremental() %}
+        where order_date >= (select max(order_date) from {{ this }})
+    {% endif %} 
 ),
 orders_fact as (
     select
