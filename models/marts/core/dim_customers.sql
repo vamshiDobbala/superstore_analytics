@@ -12,7 +12,7 @@ with snapshot as (
 customers as (
 
     select
-        -- We rename dbt's secret ID to match our Kimball naming convention
+        -- Each version of a customer gets a unique surrogate key (SCD Type 2)
         dbt_scd_id as customer_sk, 
         
         customer_id,

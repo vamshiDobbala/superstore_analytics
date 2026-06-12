@@ -15,21 +15,73 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_customers')
-              field: customer_sk
+              arguments:
+                to: ref('dim_customers')
+                field: customer_sk
               
       - name: product_sk
         description: "Foreign key linking to the Product Dimension."
         tests:
           - not_null
           - relationships:
-              to: ref('dim_products')
-              field: product_sk
+              arguments:
+                to: ref('dim_products')
+                field: product_sk
 
       - name: location_sk
         description: "Foreign key linking to the Location Dimension."
         tests:
           - not_null
           - relationships:
-              to: ref('dim_locations')
-              field: location_sk
+              arguments:
+                to: ref('dim_locations')
+                field: location_sk
+
+  - name: superstore_orders_view
+    description: "Denormalized view joining all facts and dimensions for Apache Superset BI. Contains current dimension records only (SCD Type 2 filtered)."
+    columns:
+      - name: order_item_id
+        description: "Primary key - unique per order line item."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "The original order identifier."
+      - name: order_date
+        description: "Date the order was placed."
+      - name: ship_date
+        description: "Date the order was shipped."
+      - name: ship_mode
+        description: "Shipping mode (Standard, Express, etc.)."
+      - name: customer_id
+        description: "Natural key for the customer."
+      - name: customer_name
+        description: "Full name of the customer."
+      - name: segment
+        description: "Customer segment (Consumer, Corporate, Home Office)."
+      - name: product_id
+        description: "Natural key for the product."
+      - name: product_name
+        description: "Name of the product."
+      - name: category
+        description: "Product category."
+      - name: sub_category
+        description: "Product sub-category."
+      - name: country
+        description: "Country of the shipping address."
+      - name: region
+        description: "Sales region."
+      - name: state
+        description: "State of the shipping address."
+      - name: city
+        description: "City of the shipping address."
+      - name: postal_code
+        description: "Postal code of the shipping address."
+      - name: sales
+        description: "Total sales amount for this line item."
+      - name: quantity
+        description: "Quantity ordered."
+      - name: discount
+        description: "Discount applied."
+      - name: profit
+        description: "Profit earned on this line item."
